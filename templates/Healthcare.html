@@ -1,0 +1,130 @@
+
+        
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Medicare Payment Predictor</title>
+          <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+          <style>
+              body {
+                  font-family: Arial, sans-serif;
+                  margin: 20px;
+                  padding: 20px;
+                  background-color: #f8f3f4;
+                  text-align: center;
+              }
+              .container {
+                  background: #fff0f5;
+                  padding: 20px;
+                  max-width: 500px;
+                  margin: auto;
+                  border-radius: 10px;
+                  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+              }
+              input, select {
+                  width: 100%;
+                  padding: 10px;
+                  margin: 10px 0;
+                  background: #e0f7fa;
+                  border: 1px solid #b2ebf2;
+                  border-radius: 5px;
+              }
+              .input-group {
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+              }
+              .input-group i {
+                  margin-right: 10px;
+                  color: #607d8b;
+              }
+              button {
+                  background: #ffccbc;
+                  color: #5d4037;
+                  padding: 10px;
+                  width: 100%;
+                  border: none;
+                  cursor: pointer;
+                  border-radius: 5px;
+              }
+              button:hover {
+                  background: #ffab91;
+              }
+          </style>
+          <script>
+              function checkLogin() {
+                  let username = document.getElementById("username").value;
+                  let password = document.getElementById("password").value;
+                  if (username === "admin" && password === "12345") {
+                      document.getElementById("login-container").style.display = "none";
+                      document.getElementById("main-container").style.display = "block";
+                  } else {
+                      alert("Invalid credentials! Try again.");
+                  }
+              }
+          </script>
+      </head>
+      <body>
+          <div id="login-container" class="container">
+              <h2>Login</h2>
+              <label>Username</label>
+              <input type="text" id="username" placeholder="Enter Username">
+              <label>Password</label>
+              <input type="password" id="password" placeholder="Enter Password">
+              <button onclick="checkLogin()">Login</button>
+          </div>
+      
+          <div id="main-container" class="container" style="display: none;">
+              <h2 style="text-align: center;">Medicare Payment Predictor</h2>
+              
+              <label style="text-align: left; display: block;">DRG Definition</label>
+              <div class="input-group">
+                  <i class="fas fa-file-medical"></i>
+                  <input type="text" id="DRG_Definition" placeholder="Enter DRG definition">
+              </div>
+      
+              <label style="text-align: left; display: block;">Total Discharges</label>
+              <div class="input-group">
+                  <i class="fas fa-procedures"></i>
+                  <input type="number" id="Total_Discharges" placeholder="Enter total discharges">
+              </div>
+      
+              <label style="text-align: left; display: block;">Average Covered Charges ($)</label>
+              <div class="input-group">
+                  <i class="fas fa-dollar-sign"></i>
+                  <input type="number" id="Average_Covered_Charges" placeholder="Enter average covered charges">
+              </div>
+      
+              <label style="text-align: left; display: block;">Provider State</label>
+              <div class="input-group">
+                  <i class="fas fa-map"></i>
+                  <input type="text" id="Provider_State" placeholder="Enter provider state">
+              </div>
+      
+              <label style="text-align: left; display: block;">Hospital Referral Region (HRR)</label>
+              <div class="input-group">
+                  <i class="fas fa-hospital"></i>
+                  <input type="text" id="Hospital_Referral_Region_HRR_Description" placeholder="Enter hospital referral region">
+              </div>
+              
+              <button onclick="predictPayment()">Predict Payment</button>
+              
+              <h3>Estimated Medicare Payment: $<span id="prediction">0.00</span></h3>
+          </div>
+          
+          <script>
+              function predictPayment() {
+                  let Total_Discharges = parseFloat(document.getElementById("Total_Discharges").value) || 0;
+                  let Average_Covered_Charges = parseFloat(document.getElementById("Average_Covered_Charges").value) || 0;
+                  
+                  // Example: 80% of avg covered charges with discharge weight
+                  let estimatedPayment = (Average_Covered_Charges * 0.8) / (Total_Discharges + 1);
+                  
+                  document.getElementById("prediction").innerText = estimatedPayment.toFixed(2);
+              }
+          </script>
+      </body>
+      </html>
+      
